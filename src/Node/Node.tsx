@@ -1,54 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { TTree } from "../generateTree";
 import {
   addChild,
   createNode,
   deleteNode,
   removeChild,
   increment,
-} from "./connectedNodeSlice";
+} from "./treeSlice";
 
-type ConnectedNodeProps = {
+type NodeProps = {
   id: number;
   parentId?: number;
 };
 
-const ConnectedNode = function (props: ConnectedNodeProps) {
-  const { tree } = useSelector((state: RootState) => state.connectedNode);
+const Node = React.memo(({ id, parentId }: NodeProps) => {
+  const node = useSelector((state: RootState) => state.tree[id]);
   const dispatch = useDispatch();
 
-  const { id, parentId } = props;
-
-  const { childIds, counter } = tree[id];
+  const { childIds, counter } = node;
 
   const handleIncrementClick = () => {
-    const { id } = props;
     dispatch(increment(id));
   };
 
   const handleAddChildClick = () => {
-    // e.preventDefault();
-
-    const { id } = props;
     dispatch(createNode());
     dispatch(addChild(id));
   };
 
   const handleRemoveClick = () => {
-    // e.preventDefault();
-
-    const { id, parentId } = props;
     dispatch(removeChild({ nodeId: parentId!, childId: id }));
     dispatch(deleteNode(id));
   };
 
-  const renderChild = (childId: number) => {
-    const { id } = props;
+  const renderChild = (childId: number, id: number) => {
     return (
       <li key={childId}>
-        <ConnectedNode id={childId} parentId={id} />
+        <Node id={childId} parentId={id} />
       </li>
     );
   };
@@ -65,7 +54,7 @@ const ConnectedNode = function (props: ConnectedNodeProps) {
         </button>
       )}
       <ul className="node-children">
-        {childIds.map(renderChild)}
+        {childIds.map((childId) => renderChild(childId, id))}
         <li key="add">
           <button className="btn btn-add-child" onClick={handleAddChildClick}>
             Add Child
@@ -74,6 +63,6 @@ const ConnectedNode = function (props: ConnectedNodeProps) {
       </ul>
     </div>
   );
-};
+});
 
-export default ConnectedNode;
+export default Node;

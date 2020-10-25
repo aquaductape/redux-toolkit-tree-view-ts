@@ -1,16 +1,10 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import connectedNodeReducer from "../ConnectedNode/connectedNodeSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import treeReducer from "../Node/treeSlice";
 
 export const store = configureStore({
   reducer: {
-    connectedNode: connectedNodeReducer,
+    tree: treeReducer,
   },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;

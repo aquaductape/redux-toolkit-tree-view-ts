@@ -7,7 +7,7 @@ export type TTree = {
 };
 
 export default function generateTree() {
-  const ids = 100;
+  const idCount = 100;
   const tree: TTree = {
     0: {
       id: 0,
@@ -16,7 +16,7 @@ export default function generateTree() {
     },
   };
 
-  for (let i = 1; i < ids; i++) {
+  for (let i = 1; i < idCount; i++) {
     const parentId = Math.floor(Math.pow(Math.random(), 2) * i);
     tree[i] = {
       id: i,
@@ -28,6 +28,6 @@ export default function generateTree() {
 
   return {
     tree,
-    nextId: ids,
+    idCount,
   };
 }

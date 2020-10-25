@@ -1,14 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import "./App.css";
-import ConnectedNode from "./ConnectedNode/ConnectedNode";
+import Node from "./Node/Node";
 
 function App() {
-  return (
-    <div className="App">
-      <ConnectedNode id={0}></ConnectedNode>
-    </div>
-  );
+  return <Node id={0}></Node>;
 }
 
 export default App;
